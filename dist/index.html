@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Digital Research Assistant</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        max-width: 640px;
+        margin: 4rem auto;
+        padding: 0 1rem;
+        color: #1f2937;
+      }
+      .status {
+        padding: 0.75rem 1rem;
+        border-radius: 6px;
+        background: #f3f4f6;
+      }
+      .status.ok { background: #dcfce7; }
+      .status.error { background: #fee2e2; }
+    </style>
+  </head>
+  <body>
+    <h1>Digital Research Assistant</h1>
+    <p>Application is running. The full frontend will be available here soon.</p>
+    <div id="status" class="status">Checking backend connection...</div>
+
+    <script>
+      (function () {
+        var el = document.getElementById('status');
+        fetch('/api/health')
+          .then(function (res) { return res.json(); })
+          .then(function (data) {
+            el.textContent = 'Backend status: ' + data.status;
+            el.className = 'status ok';
+          })
+          .catch(function () {
+            el.textContent = 'Unable to connect to the backend.';
+            el.className = 'status error';
+          });
+      })();
+    </script>
+  </body>
+</html>
